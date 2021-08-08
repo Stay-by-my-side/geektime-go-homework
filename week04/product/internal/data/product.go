@@ -29,16 +29,6 @@ type product struct {
 }
 
 func pTod(product product) *biz.Product {
-	// pj, err := json.Marshal(product)
-	// if err != nil {
-	// 	return nil, errors.Wrapf(err, "product: %v\n", product)
-	// }
-	// pb := new(biz.Product)
-	// err = json.Unmarshal(pj, pb)
-	// if err != nil {
-	// 	return nil, errors.Wrapf(err, "pj: %v, pb: %v\n", pj, pb)
-	// }
-	// return pb, nil
 	return &biz.Product{
 		Id:          product.Id,
 		Name:        product.Name,
@@ -48,10 +38,9 @@ func pTod(product product) *biz.Product {
 }
 
 func (r *productRepo) ListProduct(ctx context.Context) ([]*biz.Product, error) {
-	// TODO 处理ctx
 	sqlStr := "SELECT id, name, description, price FROM product"
 	var products []product
-	if err := r.data.db.Select(&products, sqlStr); err != nil {
+	if err := r.data.db.SelectContext(ctx, &products, sqlStr); err != nil {
 		return nil, errors.Wrapf(err, "sql: %s", sqlStr)
 	}
 	pbs := make([]*biz.Product, len(products), len(products))
@@ -63,10 +52,9 @@ func (r *productRepo) ListProduct(ctx context.Context) ([]*biz.Product, error) {
 }
 
 func (r *productRepo) GetProduct(ctx context.Context, id int64) (*biz.Product, error) {
-	// TODO 处理ctx
 	sqlStr := "SELECT id, name, description, price FROM product WHERE id = ?"
 	var p product
-	if err := r.data.db.Get(&p, sqlStr, id); err != nil {
+	if err := r.data.db.GetContext(ctx, &p, sqlStr, id); err != nil {
 		return nil, errors.Wrapf(err, "sql: %s", sqlStr)
 	}
 
@@ -75,9 +63,8 @@ func (r *productRepo) GetProduct(ctx context.Context, id int64) (*biz.Product, e
 }
 
 func (r *productRepo) CreateProduct(ctx context.Context, p *biz.Product) (int64, error) {
-	// TODO 处理ctx
 	sqlStr := "INSERT INTO product(name, description, price) VALUES(?, ?, ?)"
-	result, err := r.data.db.Exec(sqlStr, p.Name, p.Description, p.Price)
+	result, err := r.data.db.ExecContext(ctx, sqlStr, p.Name, p.Description, p.Price)
 	if err != nil {
 		return 0, errors.Wrapf(err, "sql: %s", sqlStr)
 	}
@@ -89,9 +76,8 @@ func (r *productRepo) CreateProduct(ctx context.Context, p *biz.Product) (int64,
 }
 
 func (r *productRepo) UpdateProduct(ctx context.Context, id int64, p *biz.Product) error {
-	// TODO 处理ctx
 	sqlStr := "UPDATE product SET description = ?, price= ? WHERE id = ?"
-	_, err := r.data.db.Exec(sqlStr, p.Description, p.Price, id)
+	_, err := r.data.db.ExecContext(ctx, sqlStr, p.Description, p.Price, id)
 	if err != nil {
 		return errors.Wrapf(err, "sql: %s", sqlStr)
 	}
@@ -99,9 +85,8 @@ func (r *productRepo) UpdateProduct(ctx context.Context, id int64, p *biz.Produc
 }
 
 func (r *productRepo) DeleteProduct(ctx context.Context, id int64) error {
-	// TODO 处理ctx
 	sqlStr := "DELETE FROM product WHERE id = ?"
-	_, err := r.data.db.Exec(sqlStr, id)
+	_, err := r.data.db.ExecContext(ctx, sqlStr, id)
 	if err != nil {
 		return errors.Wrapf(err, "sql: %s", sqlStr)
 	}
