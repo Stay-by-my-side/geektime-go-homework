@@ -48,6 +48,7 @@ func (s *ProductService) CreateProduct(ctx context.Context, req *pb.CreateProduc
 		Product: s.DTO(p),
 	}, nil
 }
+
 func (s *ProductService) UpdateProduct(ctx context.Context, req *pb.UpdateProductRequest) (*pb.UpdateProductReply, error) {
 	s.log.WithContext(ctx).Infof("UpdateProduct Received: %v", req)
 	// TODO 修改验证与错误处理
@@ -70,6 +71,7 @@ func (s *ProductService) UpdateProduct(ctx context.Context, req *pb.UpdateProduc
 	}
 	return &pb.UpdateProductReply{}, nil
 }
+
 func (s *ProductService) DeleteProduct(ctx context.Context, req *pb.DeleteProductRequest) (*pb.DeleteProductReply, error) {
 	s.log.WithContext(ctx).Infof("DeleteProduct Received: %v", req.GetId())
 	// TODO 修改验证与错误处理
@@ -83,6 +85,7 @@ func (s *ProductService) DeleteProduct(ctx context.Context, req *pb.DeleteProduc
 	}
 	return &pb.DeleteProductReply{}, nil
 }
+
 func (s *ProductService) GetProduct(ctx context.Context, req *pb.GetProductRequest) (*pb.GetProductReply, error) {
 	s.log.WithContext(ctx).Infof("GetProduct Received: %v", req.GetId())
 	// TODO 修改验证与错误处理
@@ -98,6 +101,7 @@ func (s *ProductService) GetProduct(ctx context.Context, req *pb.GetProductReque
 		Product: s.DTO(p),
 	}, nil
 }
+
 func (s *ProductService) ListProduct(ctx context.Context, req *pb.ListProductRequest) (*pb.ListProductReply, error) {
 	s.log.WithContext(ctx).Infof("ListProduct Received: %v", req)
 	ps, err := s.product.List(ctx)
