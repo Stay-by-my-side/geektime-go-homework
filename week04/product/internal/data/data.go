@@ -1,7 +1,7 @@
 package data
 
 import (
-	"helloworld/internal/conf"
+	"product/internal/conf"
 
 	"github.com/go-kratos/kratos/v2/log"
 	_ "github.com/go-sql-driver/mysql"
@@ -10,7 +10,7 @@ import (
 )
 
 // ProviderSet is data providers.
-var ProviderSet = wire.NewSet(NewData, NewGreeterRepo)
+var ProviderSet = wire.NewSet(NewData, NewProductRepo)
 
 // Data .
 type Data struct {

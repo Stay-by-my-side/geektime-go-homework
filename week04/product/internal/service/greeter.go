@@ -5,6 +5,7 @@ import (
 
 	v1 "product/api/helloworld/v1"
 	"product/internal/biz"
+
 	"github.com/go-kratos/kratos/v2/log"
 )
 

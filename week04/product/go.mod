@@ -9,6 +9,7 @@ require (
 	github.com/jmoiron/sqlx v1.3.4
 	github.com/kr/text v0.2.0 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
+	github.com/pkg/errors v0.9.1
 	google.golang.org/genproto v0.0.0-20210629200056-84d6f6074151
 	google.golang.org/grpc v1.39.0
 	google.golang.org/protobuf v1.27.1
