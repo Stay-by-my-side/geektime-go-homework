@@ -17,7 +17,7 @@ type ProductRepo interface {
 	// db
 	ListProduct(ctx context.Context) ([]*Product, error)
 	GetProduct(ctx context.Context, id int64) (*Product, error)
-	CreateProduct(ctx context.Context, product *Product) error
+	CreateProduct(ctx context.Context, product *Product) (int64, error)
 	UpdateProduct(ctx context.Context, id int64, product *Product) error
 	DeleteProduct(ctx context.Context, id int64) error
 }
@@ -46,12 +46,12 @@ func (uc *ProductUsecase) Get(ctx context.Context, id int64) (p *Product, err er
 	return
 }
 
-func (uc *ProductUsecase) Create(ctx context.Context, article *Product) error {
-	return uc.repo.CreateProduct(ctx, article)
+func (uc *ProductUsecase) Create(ctx context.Context, product *Product) (int64, error) {
+	return uc.repo.CreateProduct(ctx, product)
 }
 
-func (uc *ProductUsecase) Update(ctx context.Context, id int64, article *Product) error {
-	return uc.repo.UpdateProduct(ctx, id, article)
+func (uc *ProductUsecase) Update(ctx context.Context, id int64, product *Product) error {
+	return uc.repo.UpdateProduct(ctx, id, product)
 }
 
 func (uc *ProductUsecase) Delete(ctx context.Context, id int64) error {

@@ -14,6 +14,13 @@ type tag struct {
 	State string `db:"state"`
 }
 
+type product struct {
+	Id          int64   `db:"id"`
+	Name        string  `db:"name"`
+	Description string  `db:"description"`
+	Price       float64 `db:"price"`
+}
+
 func main() {
 	db, err := sqlx.Connect("mysql", "root:111111@tcp(127.0.0.1:3306)/blog_service")
 	if err != nil {
@@ -22,10 +29,10 @@ func main() {
 	}
 	defer db.Close()
 
-	if err := queryRow(db, 1); err != nil {
+	if err := queryProductRow(db, 1); err != nil {
 		fmt.Printf("main.queryRow FATAL: \n%+v\n", err)
 	}
-	if err := queryRow(db, 0); err != nil {
+	if err := queryRow(db, 1); err != nil {
 		fmt.Printf("main.queryRow FATAL: \n%+v\n", err)
 	}
 }
@@ -38,5 +45,16 @@ func queryRow(db *sqlx.DB, id int64) error {
 		return errors.Wrapf(err, "sql: %s", sqlStr)
 	}
 	fmt.Printf("id:%d, name:%s, age:%s\n", t.Id, t.Name, t.State)
+	return nil
+}
+
+func queryProductRow(db *sqlx.DB, id int64) error {
+	sqlStr := "SELECT id, name, description, price FROM product WHERE id = ?"
+
+	var p product
+	if err := db.Get(&p, sqlStr, id); err != nil {
+		return errors.Wrapf(err, "sql: %s", sqlStr)
+	}
+	fmt.Printf("id:%d, name:%s, description:%s, price:%g\n", p.Id, p.Name, p.Description, p.Price)
 	return nil
 }
